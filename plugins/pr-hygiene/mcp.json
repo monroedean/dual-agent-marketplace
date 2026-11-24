@@ -1,0 +1,13 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "pr-notes": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${PLUGIN_ROOT}/scripts/example-mcp-server.mjs"],
+      "env": {
+        "PR_HYGIENE_MODE": "copilot"
+      }
+    }
+  }
+}

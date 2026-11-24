@@ -1,0 +1,12 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "pr-hygiene",
+  "version": "1.0.0",
+  "description": "Shared PR review skill, custom reviewer agents, MCP server config, and force-push guard hook for both Claude Code and GitHub Copilot.",
+  "author": {
+    "name": "Example Engineering Team",
+    "email": "tools@example.com"
+  },
+  "license": "MIT",
+  "keywords": ["pr", "code-review", "git", "claude-code", "copilot"]
+}

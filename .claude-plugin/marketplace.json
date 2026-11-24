@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "dual-agent-marketplace",
+  "owner": {
+    "name": "Example Engineering Team",
+    "email": "tools@example.com"
+  },
+  "metadata": {
+    "description": "Reference GitHub plugin marketplace compatible with both Claude Code and GitHub Copilot.",
+    "version": "1.0.0",
+    "homepage": "https://github.com/your-org/dual-agent-marketplace"
+  },
+  "plugins": [
+    {
+      "name": "pr-hygiene",
+      "version": "1.0.0",
+      "description": "Shared PR review skill, custom reviewer agents, MCP server config, and force-push guard hook for both Claude Code and GitHub Copilot.",
+      "source": "./plugins/pr-hygiene"
+    }
+  ]
+}

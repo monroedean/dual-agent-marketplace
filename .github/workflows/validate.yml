@@ -1,0 +1,41 @@
+name: Validate Dual Marketplace
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Validate dual manifests, skills, agents, MCP, and hooks
+        run: node scripts/validate-marketplace.mjs
+
+      - name: Smoke-test shared force-push hook (Claude Code & Copilot payloads)
+        run: |
+          # Claude Code: should block with exit code 2
+          set +e
+          echo '{"tool_name":"Bash","tool_input":{"command":"git push --force origin main"}}' \
+            | node plugins/pr-hygiene/scripts/guard-force-push.mjs
+          CODE=$?
+          set -e
+          test "$CODE" -eq 2
+
+          # GitHub Copilot: should output permissionDecision "deny"
+          OUT=$(echo '{"toolName":"bash","toolArgs":"{\"command\":\"git push -f origin main\"}"}' \
+            | node plugins/pr-hygiene/scripts/guard-force-push.mjs)
+          echo "$OUT" | grep -q '"permissionDecision":"deny"'
+
+          # Safe command: should exit 0 with empty output
+          OUT_SAFE=$(echo '{"tool_name":"Bash","tool_input":{"command":"git push origin feat/my-branch"}}' \
+            | node plugins/pr-hygiene/scripts/guard-force-push.mjs)
+          test -z "$OUT_SAFE"

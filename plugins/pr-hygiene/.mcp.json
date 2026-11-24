@@ -1,0 +1,9 @@
+{
+  "pr-notes": {
+    "command": "node",
+    "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/example-mcp-server.mjs"],
+    "env": {
+      "PR_HYGIENE_MODE": "claude-code"
+    }
+  }
+}
