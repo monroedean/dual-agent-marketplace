@@ -71,7 +71,27 @@ copilot plugin install pr-hygiene@dual-agent-marketplace
 
 ### VS Code (GitHub Copilot)
 
-Add your GitHub repository as an agent plugin marketplace in VS Code's Copilot plugin settings, then install `pr-hygiene` from the Extensions / Agent Plugins view.
+Add your GitHub repository (or a local path for development) to your VS Code User `settings.json`:
+
+```json
+{
+  "chat.plugins.marketplaces": [
+    "your-org/dual-agent-marketplace"
+  ]
+}
+```
+
+For local plugin development without pushing to GitHub, you can also load a plugin folder directly in VS Code User `settings.json`:
+
+```json
+{
+  "chat.pluginLocations": {
+    "/absolute/path/to/dual-agent-marketplace/plugins/pr-hygiene": true
+  }
+}
+```
+
+Then reload VS Code and open **Chat: Manage Plugin Marketplaces** or **Chat: Open Customizations**.
 
 ---
 
@@ -169,10 +189,21 @@ Run the built-in validator:
 node scripts/validate-marketplace.mjs
 ```
 
-If you have the Claude Code CLI installed, you can also run its native validator:
+If you have the Claude Code or Copilot CLIs installed, you can also run native validation and local installs against this folder:
 
 ```bash
+# Claude Code
 claude plugin validate .
+claude plugin marketplace add "$(pwd)"
+claude plugin install pr-hygiene@dual-agent-marketplace
+claude plugin details pr-hygiene@dual-agent-marketplace
+
+# GitHub Copilot CLI
+copilot plugin marketplace add "$(pwd)"
+copilot plugin marketplace browse dual-agent-marketplace
+copilot plugin install pr-hygiene@dual-agent-marketplace
+copilot skill list
+copilot mcp get pr-notes
 ```
 
 Test the shared force-push guard hook against both payload formats:
